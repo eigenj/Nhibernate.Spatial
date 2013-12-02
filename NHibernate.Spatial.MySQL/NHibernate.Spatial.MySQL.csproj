@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialect\MySQLSpatial56Dialect.cs" />
     <Compile Include="Dialect\MySQLSpatialDialect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Type\MySQLGeometryStringType.cs" />
