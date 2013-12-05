@@ -28,10 +28,12 @@ using NHibernate.Util;
 namespace NHibernate.Spatial.Dialect
 {
     /// <summary>
-    /// MySQL Spatial Dialect for MySQL 5.6.1+. Uses precise object shape functions introduced in MySQL v5.6.1 
+    /// MySQL Spatial Dialect for MySQL 5.6.1+. Uses precise object shape relation functions introduced in MySQL v5.6.1 
     /// </summary>
     public class MySQLSpatial56Dialect : MySQL5Dialect, ISpatialDialect
     {
+        private const string RelationPrefix = "ST_";
+        
         private static readonly IType geometryType = new CustomType(typeof(MySQLGeometryType), null);
 
         /// <summary>
@@ -304,7 +306,7 @@ namespace NHibernate.Spatial.Dialect
                     return GetSpatialRelationString(anotherGeometry, SpatialRelation.Covers, geometry, criterion);
                 default:
                     return new SqlStringBuilder(6)
-                        .Add(relation.ToString())
+                        .Add(RelationPrefix + relation.ToString())
                         .Add("(")
                         .AddObject(geometry)
                         .Add(", ")
@@ -346,7 +348,7 @@ namespace NHibernate.Spatial.Dialect
         public SqlString GetSpatialFilterString(string tableAlias, string geometryColumnName, string primaryKeyColumnName, string tableName, Parameter parameter)
         {
             return new SqlStringBuilder(7)
-                .Add("ST_Intersects(")
+                .Add(RelationPrefix + "Intersects(")
                 .Add(tableAlias)
                 .Add(".")
                 .Add(geometryColumnName)
